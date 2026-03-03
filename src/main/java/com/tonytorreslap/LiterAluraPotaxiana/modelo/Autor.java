@@ -1,6 +1,13 @@
 package com.tonytorreslap.LiterAluraPotaxiana.modelo;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "autores")
 public class Autor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ID;
     private String nombre;
     private String fechaDeNacimiento;
 
