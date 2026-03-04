@@ -33,13 +33,18 @@ public class Principal {
                     2- Listar libros registrados
                     3- Listar autores registrados
                     4- Listar autores vivos en determinado año
-                    5- ////
+                    5- Listar libros por idiome
                     
                     0-salir de esta bongos
                     """;
             System.out.println(menu);
-            opcion = teclado.nextInt();
-            teclado.nextLine();
+            try {
+                opcion = Integer.parseInt(teclado.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Ridícula!! Tienes que ingresar un NÚMERO válido, no letras ni símbolos...");
+                continue; 
+            }
+
 
             switch (opcion){
                 case 1:
@@ -55,6 +60,7 @@ public class Principal {
                     buscarAutoresPorAne();
                     break;
                 case 5:
+                    listarLibrosPorIdioma();
                     break;
                 case 0:
                     System.out.println("Cerrando esta Withness bb! ADIÓS.");
@@ -159,6 +165,36 @@ public class Principal {
                         " | Nacimiento: " + a.getFechaDeNacimiento() +
                         " | Fallecimiento: " + (a.getFechaDeFallecimiento() != null ? a.getFechaDeFallecimiento() : "Desconocido"));
             });
+        }
+    }
+
+    private void listarLibrosPorIdioma() {
+        System.out.println("""
+                \nIngrese el idiome fife para buscar lxs libros:
+                es - Español
+                en - Inglés
+                fr - Francés
+                pt - Portugués
+                """);
+        var idiomaBuscado = teclado.nextLine().toLowerCase();
+
+        //¿Aprietas?
+        if (idiomaBuscado.equals("potaxie")) {
+            System.out.println("Lastimosamente esta api es fife y no sabe lo que son valores y culture potaxiane 🙄💅");
+            return;
+        }
+
+        List<Libro> libros = repositorio.findAll();
+
+        List<Libro> librosPorIdioma = libros.stream()
+                .filter(l -> l.getIdiomas().contains(idiomaBuscado))
+                .toList();
+
+        if (librosPorIdioma.isEmpty()) {
+            System.out.println("No encontramos ningún libro registrado en ese idioma bb :(");
+        } else {
+            System.out.println("\n--- Libros registrados en '" + idiomaBuscado + "' ---");
+            librosPorIdioma.forEach(System.out::println);
         }
     }
 

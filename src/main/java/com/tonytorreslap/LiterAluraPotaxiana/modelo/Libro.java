@@ -46,4 +46,8 @@ public class Libro {
     public void setAutor(List<Autor> autor) {
         this.autor = autor;
     }
+
+    public List<String> getIdiomas() {
+        return idiomas;
+    }
 }
