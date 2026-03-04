@@ -4,6 +4,8 @@ package com.tonytorreslap.LiterAluraPotaxiana.modelo;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Entity
 @Table(name = "libros")
 public class Libro {
@@ -23,6 +25,9 @@ public class Libro {
         this.titulo = datosLibros.titulo();
         this.numeroDeDescargas = datosLibros.numeroDeDescargas();
         this.idiomas = datosLibros.idiomas();
+        this.autor = datosLibros.autor().stream()
+                .map(Autor::new)
+                .collect(Collectors.toList());
     }
 
     @Override

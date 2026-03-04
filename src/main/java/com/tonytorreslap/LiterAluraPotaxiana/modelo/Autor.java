@@ -19,6 +19,12 @@ public class Autor {
                 ", fechaDeNacimiento='" + fechaDeNacimiento;
     }
 
+    public Autor() {}
+    public Autor(DatosAutor datosAutor) {
+        this.nombre = datosAutor.nombre();
+        this.fechaDeNacimiento = datosAutor.fechaDeNacimiento();
+    }
+
     public String getNombre() {
         return nombre;
     }
