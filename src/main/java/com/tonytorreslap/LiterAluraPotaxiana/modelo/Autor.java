@@ -10,6 +10,7 @@ public class Autor {
     private Long ID;
     private String nombre;
     private String fechaDeNacimiento;
+    private String fechaDeFallecimiento;
 
 
     @Override
@@ -23,6 +24,7 @@ public class Autor {
     public Autor(DatosAutor datosAutor) {
         this.nombre = datosAutor.nombre();
         this.fechaDeNacimiento = datosAutor.fechaDeNacimiento();
+        this.fechaDeFallecimiento = datosAutor.fechaDeFallecimiento();
     }
 
     public String getNombre() {
@@ -39,5 +41,9 @@ public class Autor {
 
     public void setFechaDeNacimiento(String fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    public String getFechaDeFallecimiento() {
+        return fechaDeFallecimiento;
     }
 }

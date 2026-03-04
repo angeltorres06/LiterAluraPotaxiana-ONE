@@ -1,5 +1,6 @@
 package com.tonytorreslap.LiterAluraPotaxiana.principal;
 
+import com.tonytorreslap.LiterAluraPotaxiana.modelo.Autor;
 import com.tonytorreslap.LiterAluraPotaxiana.modelo.Datos;
 import com.tonytorreslap.LiterAluraPotaxiana.modelo.DatosLibros;
 import com.tonytorreslap.LiterAluraPotaxiana.modelo.Libro;
@@ -7,9 +8,7 @@ import com.tonytorreslap.LiterAluraPotaxiana.repositorio.LibrosRepositorio;
 import com.tonytorreslap.LiterAluraPotaxiana.servicio.ConsumoAPI;
 import com.tonytorreslap.LiterAluraPotaxiana.servicio.ConvierteDatos;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Principal {
     private Scanner teclado = new Scanner (System.in);
@@ -50,8 +49,10 @@ public class Principal {
                     mostrarLibrosRegistrados();
                     break;
                 case 3:
+                    mostrarAutoresRegistrados();
                     break;
                 case 4:
+                    buscarAutoresPorAne();
                     break;
                 case 5:
                     break;
@@ -98,6 +99,66 @@ public class Principal {
             System.out.println("Aún no hay libros en la base de datos bb. ¡Busca algunos en la opción 1 primerx!");
         } else {
             libros.forEach(System.out::println);
+        }
+    }
+
+    private void mostrarAutoresRegistrados() {
+        System.out.println("\n--- Lista de Autores Potaxianos Registrados ---");
+
+        List<Libro> libros = repositorio.findAll();
+
+        if (libros.isEmpty()) {
+            System.out.println("Aún no hay libros, por lo tanto no hay autores registrados bb. :(");
+            return;
+        }
+
+        Map<String, Autor> autoresUnicos = new HashMap<>();
+        libros.forEach(libro -> {
+            libro.getAutor().forEach(autor -> autoresUnicos.put(autor.getNombre(), autor));
+        });
+
+        autoresUnicos.values().forEach(System.out::println);
+    }
+
+    private void buscarAutoresPorAne() {
+        System.out.println("Ingresa el ane para buscar qué autorxs estaban vivxs:");
+        var aneBuscado = teclado.nextInt();
+        teclado.nextLine();
+
+        List<Libro> libros = repositorio.findAll();
+
+        Map<String, Autor> autoresVivos = new HashMap<>();
+
+        libros.forEach(libro -> {
+            libro.getAutor().forEach(autor -> {
+                if (autor.getFechaDeNacimiento() != null) {
+                    try {
+                        int nacimiento = Integer.parseInt(autor.getFechaDeNacimiento());
+                        // Si no tiene fecha de muerte, asumo un número muy alto... para que
+                        //marque que está vivo
+                        int fallecimiento = autor.getFechaDeFallecimiento() != null ?
+                                Integer.parseInt(autor.getFechaDeFallecimiento()) : 9999;
+
+                        // Validación
+                        if (aneBuscado >= nacimiento && aneBuscado <= fallecimiento) {
+                            autoresVivos.put(autor.getNombre(), autor);
+                        }
+                    } catch (NumberFormatException e) {
+
+                    }
+                }
+            });
+        });
+
+        if (autoresVivos.isEmpty()) {
+            System.out.println("No encontramos ningún autxr vivo en ese año en nuestra base de datos :(");
+        } else {
+            System.out.println("\n--- Autores vivos en el año " + aneBuscado + " ---");
+            autoresVivos.values().forEach(a -> {
+                System.out.println("Nombre: " + a.getNombre() +
+                        " | Nacimiento: " + a.getFechaDeNacimiento() +
+                        " | Fallecimiento: " + (a.getFechaDeFallecimiento() != null ? a.getFechaDeFallecimiento() : "Desconocido"));
+            });
         }
     }
 

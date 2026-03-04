@@ -38,4 +38,12 @@ public class Libro {
                 ", idiomas=" + idiomas +
                 ", numeroDeDescargas=" + numeroDeDescargas;
     }
+
+    public List<Autor> getAutor() {
+        return autor;
+    }
+
+    public void setAutor(List<Autor> autor) {
+        this.autor = autor;
+    }
 }
