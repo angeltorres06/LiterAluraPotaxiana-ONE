@@ -1,4 +1,4 @@
-# LiterAlura <<Potaxiana>> 
+# LiterAlura POTAXIANA
 ni modo que fife...
 
 Bienvenidx. Este es un proyecto de consola desarrollado en Java con Spring Boot. Esta aplicación consume la API pública de [Gutendex](https://gutendex.com/) para buscar libros de dominio público,
@@ -14,6 +14,8 @@ La aplicación cuenta con un menú interactivo que te permite realizar las sigui
 4. **🕰️ Buscar autores vivos por año:** Ingresa un año y descubre qué autores de tu base de datos estaban respirando en ese momento.
 5. **🌍 Listar libros por idioma:** Filtra tu colección usando siglas de idiomas (`es`, `en`, `fr`, `pt`). 
    * *prueba a buscar el idioma potaxie....*
+<img width="734" height="284" alt="image" src="https://github.com/user-attachments/assets/a976f1f8-d14b-4863-a2a9-96ef6e034b9a" />
+
 
 ## 🛠️ Tecnologías y Herramientas Utilizadas
 
