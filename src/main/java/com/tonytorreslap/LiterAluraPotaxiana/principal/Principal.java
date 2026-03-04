@@ -42,7 +42,7 @@ public class Principal {
                 opcion = Integer.parseInt(teclado.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Ridícula!! Tienes que ingresar un NÚMERO válido, no letras ni símbolos...");
-                continue; 
+                continue;
             }
 
 
@@ -128,44 +128,26 @@ public class Principal {
 
     private void buscarAutoresPorAne() {
         System.out.println("Ingresa el ane para buscar qué autorxs estaban vivxs:");
-        var aneBuscado = teclado.nextInt();
-        teclado.nextLine();
+        try {
+            var anioBuscado = teclado.nextLine();
 
-        List<Libro> libros = repositorio.findAll();
+            List<Autor> autoresVivos = repositorio.autoresVivosEnDeterminadoAnio(anioBuscado);
 
-        Map<String, Autor> autoresVivos = new HashMap<>();
-
-        libros.forEach(libro -> {
-            libro.getAutor().forEach(autor -> {
-                if (autor.getFechaDeNacimiento() != null) {
-                    try {
-                        int nacimiento = Integer.parseInt(autor.getFechaDeNacimiento());
-                        // Si no tiene fecha de muerte, asumo un número muy alto... para que
-                        //marque que está vivo
-                        int fallecimiento = autor.getFechaDeFallecimiento() != null ?
-                                Integer.parseInt(autor.getFechaDeFallecimiento()) : 9999;
-
-                        // Validación
-                        if (aneBuscado >= nacimiento && aneBuscado <= fallecimiento) {
-                            autoresVivos.put(autor.getNombre(), autor);
-                        }
-                    } catch (NumberFormatException e) {
-
-                    }
+            if (autoresVivos.isEmpty()) {
+                    System.out.println("No hay :(");
+            } else {
+                System.out.println("\n--- Autores vivos en el año " + anioBuscado + " ---");
+                autoresVivos.forEach(a -> {
+                    System.out.println("Nombre: " + a.getNombre() +
+                            " Nacimiento: " + a.getFechaDeNacimiento() +
+                            " Fallecimiento: " + (a.getFechaDeFallecimiento() != null ? a.getFechaDeFallecimiento() : "Desconocido"));
+                    });
                 }
-            });
-        });
+            } catch (Exception e) {
+                System.out.println("Ingrese un año válido...");
+            }
+        
 
-        if (autoresVivos.isEmpty()) {
-            System.out.println("No encontramos ningún autxr vivo en ese año en nuestra base de datos :(");
-        } else {
-            System.out.println("\n--- Autores vivos en el año " + aneBuscado + " ---");
-            autoresVivos.values().forEach(a -> {
-                System.out.println("Nombre: " + a.getNombre() +
-                        " | Nacimiento: " + a.getFechaDeNacimiento() +
-                        " | Fallecimiento: " + (a.getFechaDeFallecimiento() != null ? a.getFechaDeFallecimiento() : "Desconocido"));
-            });
-        }
     }
 
     private void listarLibrosPorIdioma() {
